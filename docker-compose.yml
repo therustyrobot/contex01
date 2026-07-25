@@ -1,0 +1,15 @@
+services:
+  contex01:
+    build: .
+    container_name: contex01
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: file:./data/contex01.sqlite
+      SEED_DEMO_DATA: "false"
+    volumes:
+      - contex01_data:/app/data
+
+volumes:
+  contex01_data:
