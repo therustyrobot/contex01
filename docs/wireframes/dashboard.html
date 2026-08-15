@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>contex01 — Dashboard Wireframe</title>
+<style>
+  :root {
+    --paper: #f7f7f5;
+    --panel: #ffffff;
+    --ink: #1c1d20;
+    --ink-soft: #4b4c50;
+    --muted: #8f8f8a;
+    --line: #d9d9d4;
+    --line-strong: #b9b9b3;
+    --accent: #3450c9;
+    --accent-soft: #eaeefb;
+    --ok: #4f8a5b;
+    --ok-bg: #e7f1e8;
+    --warn: #a9781f;
+    --warn-bg: #f5ecd9;
+    --crit: #b6493a;
+    --crit-bg: #f6e5e1;
+    --unknown-dot: #b9b9b3;
+    --shadow: 0 1px 2px rgba(28,29,32,0.06);
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #16171a;
+      --panel: #1e1f23;
+      --ink: #eaeae7;
+      --ink-soft: #b7b7b3;
+      --muted: #85868a;
+      --line: #313236;
+      --line-strong: #45464b;
+      --accent: #7891f0;
+      --accent-soft: #232b4a;
+      --ok: #7fb98c;
+      --ok-bg: #1e2c20;
+      --warn: #d3aa5c;
+      --warn-bg: #332a15;
+      --crit: #e07f6f;
+      --crit-bg: #3a201c;
+      --unknown-dot: #45464b;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #16171a;
+    --panel: #1e1f23;
+    --ink: #eaeae7;
+    --ink-soft: #b7b7b3;
+    --muted: #85868a;
+    --line: #313236;
+    --line-strong: #45464b;
+    --accent: #7891f0;
+    --accent-soft: #232b4a;
+    --ok: #7fb98c;
+    --ok-bg: #1e2c20;
+    --warn: #d3aa5c;
+    --warn-bg: #332a15;
+    --crit: #e07f6f;
+    --crit-bg: #3a201c;
+    --unknown-dot: #45464b;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  .mono { font-family: var(--mono); }
+
+  a { color: inherit; }
+
+  /* ---------- shell ---------- */
+  .shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 56px 1fr;
+    grid-template-areas:
+      "topbar topbar"
+      "rail   main";
+    min-height: 100vh;
+  }
+
+  .topbar {
+    grid-area: topbar;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .brand .glyph {
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    background: var(--accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .search {
+    flex: 1;
+    max-width: 420px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 7px 10px;
+    background: var(--paper);
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .search svg { flex: none; opacity: 0.6; }
+  .topbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .seg {
+    display: flex;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    overflow: hidden;
+  }
+  .seg button {
+    border: none;
+    background: var(--panel);
+    color: var(--muted);
+    font-size: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-family: var(--sans);
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  select.sort {
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--panel);
+    color: var(--ink-soft);
+    font-size: 12px;
+    padding: 6px 8px;
+    font-family: var(--sans);
+  }
+
+  .btn-primary {
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* ---------- rail ---------- */
+  .rail {
+    grid-area: rail;
+    border-right: 1px solid var(--line);
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .rail h3 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .tag-list { display: flex; flex-direction: column; gap: 2px; }
+  .tag-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 5px 6px;
+    border-radius: 6px;
+  }
+  .tag-row:hover { background: var(--accent-soft); }
+  .tag-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .tag-row .count { margin-left: auto; color: var(--muted); font-size: 12px; }
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .toggle-row .box {
+    width: 14px; height: 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+  }
+
+  /* ---------- main ---------- */
+  .main {
+    grid-area: main;
+    padding: 24px 28px 60px;
+  }
+  .main h1 {
+    font-size: 20px;
+    margin: 0 0 4px;
+  }
+  .main .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 22px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 30px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    gap: 16px;
+  }
+
+  /* ---------- project card ---------- */
+  .card {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 14px 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card.archived { opacity: 0.55; }
+  .card.archived .accent-bar { background: var(--muted) !important; }
+
+  .accent-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 10px 0 0 10px;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding-left: 6px;
+  }
+  .icon-chip {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex: none;
+  }
+  .card-title { min-width: 0; }
+  .card-title .name {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-title .slug {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .desc {
+    padding-left: 6px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tags {
+    padding-left: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .chip {
+    font-size: 10.5px;
+    padding: 2px 7px;
+    border-radius: 100px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+
+  .launch-row {
+    padding-left: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .launch-btn {
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    position: relative;
+    color: var(--ink-soft);
+  }
+  .status-dot {
+    position: absolute;
+    right: -2px; top: -2px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    border: 1.5px solid var(--panel);
+  }
+  .dot-ok { background: var(--ok); }
+  .dot-warn { background: var(--warn); }
+  .dot-crit { background: var(--crit); }
+  .dot-unknown { background: var(--unknown-dot); }
+
+  .launch-spacer { flex: 1; }
+  .agent-badge {
+    font-size: 10.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+
+  .card-foot {
+    padding-left: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+    margin-top: 2px;
+  }
+
+  /* empty-state add card */
+  .card.add-card {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--muted);
+    border-style: dashed;
+    border-color: var(--line-strong);
+    min-height: 168px;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .add-card .plus {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .add-card .label { font-size: 12.5px; font-weight: 500; }
+
+  /* ---------- annotation layer (spec card) ---------- */
+  .spec-wrap {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 8px;
+  }
+  .spec-card-holder { position: relative; }
+  .callout {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .callout .num {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+    box-shadow: 0 0 0 3px var(--panel);
+  }
+  .notes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 4px;
+  }
+  .note {
+    display: flex;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .note .num {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+    margin-top: 1px;
+  }
+  .note b { color: var(--ink); font-weight: 600; }
+  .note .tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  .legend-strip {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    color: var(--muted);
+    padding: 10px 0 4px;
+    border-top: 1px solid var(--line);
+    margin-top: 26px;
+  }
+  .legend-strip .item { display: flex; align-items: center; gap: 6px; }
+  .legend-strip .sw { width: 8px; height: 8px; border-radius: 50%; }
+
+  @media (max-width: 860px) {
+    .shell { grid-template-columns: 1fr; grid-template-areas: "topbar" "main"; }
+    .rail { display: none; }
+    .spec-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="glyph">C1</span> contex01</div>
+      <div class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Search projects, tags, hosts&hellip;
+      </div>
+      <div class="topbar-right">
+        <select class="sort mono">
+          <option>Recently updated</option>
+          <option>Name A&ndash;Z</option>
+          <option>Manual order</option>
+        </select>
+        <div class="seg">
+          <button class="active" title="Grid view">Grid</button>
+          <button title="Table view — TanStack Table, later">List</button>
+        </div>
+        <button class="btn-primary">+ New project</button>
+      </div>
+    </header>
+
+    <aside class="rail">
+      <div>
+        <h3>Tags</h3>
+        <div class="tag-list">
+          <div class="tag-row"><span class="tag-dot" style="background:#5b7fd6"></span> nixos <span class="count">4</span></div>
+          <div class="tag-row"><span class="tag-dot" style="background:#d98a4f"></span> docker <span class="count">6</span></div>
+          <div class="tag-row"><span class="tag-dot" style="background:#5fa876"></span> networking <span class="count">3</span></div>
+          <div class="tag-row"><span class="tag-dot" style="background:#c77fb0"></span> monitoring <span class="count">2</span></div>
+        </div>
+      </div>
+      <div>
+        <h3>Filters</h3>
+        <div class="toggle-row"><span class="box"></span> Show archived</div>
+      </div>
+      <div>
+        <h3>Status</h3>
+        <div class="tag-list">
+          <div class="tag-row"><span class="status-dot dot-crit" style="position:static; border:none;"></span> Needs attention <span class="count">1</span></div>
+          <div class="tag-row"><span class="status-dot dot-ok" style="position:static; border:none;"></span> All healthy <span class="count">5</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <h1>Projects</h1>
+      <p class="sub">8 active &middot; 1 archived &middot; wireframe rev. 1 — layout &amp; feature sort, not final visual design</p>
+
+      <div class="section-label">Card anatomy (annotated)</div>
+      <div class="spec-wrap">
+        <div class="spec-card-holder">
+          <div class="card" style="min-height: 190px;">
+            <div class="accent-bar" style="background:#5eead4"></div>
+            <div class="card-head">
+              <div class="icon-chip" style="background:#dff9f4; color:#0f766e;">🧭</div>
+              <div class="card-title">
+                <div class="name">contex01</div>
+                <div class="slug">contex01</div>
+              </div>
+            </div>
+            <div class="desc">Self-hostable launchpad for project contexts — locations, services, docs, and sessions in one place.</div>
+            <div class="tags">
+              <span class="chip">nixos</span><span class="chip">nextjs</span>
+            </div>
+            <div class="launch-row">
+              <div class="launch-btn">📁</div>
+              <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+              <div class="launch-btn">⌨️</div>
+              <div class="launch-spacer"></div>
+              <div class="agent-badge">✳ Claude Code · 2h</div>
+            </div>
+            <div class="card-foot">
+              <span>Updated 2h ago</span>
+              <span>3 locations · 2 services · 6 docs</span>
+            </div>
+          </div>
+        </div>
+        <div class="notes">
+          <div class="note"><div class="num">1</div><div><b>Accent bar</b> — <span class="tag">projects.color</span>, left edge only, keeps the grid from turning into a rainbow of full-card tint.</div></div>
+          <div class="note"><div class="num">2</div><div><b>Icon chip + name + slug</b> — <span class="tag">projects.icon</span>. Slug shown small &amp; mono underneath so it reads as an identifier, not a subtitle.</div></div>
+          <div class="note"><div class="num">3</div><div><b>Description</b> — clamped to 2 lines. Open question: is truncation enough, or does a card need a "details" affordance beyond opening the project page?</div></div>
+          <div class="note"><div class="num">4</div><div><b>Tag chips</b> — from <span class="tag">projectTags</span>. Click filters the rail by that tag.</div></div>
+          <div class="note"><div class="num">5</div><div><b>Quick-launch row</b> — one icon per <span class="tag">location</span> / <span class="tag">service</span> / <span class="tag">session</span> kind, capped at N before collapsing into "+2". Clicking fires <span class="tag">launchUri</span> / opens <span class="tag">url</span> / copies <span class="tag">command</span>.</div></div>
+          <div class="note"><div class="num">6</div><div><b>Status dot</b> — corner badge on service icons only, from <span class="tag">healthCheckUrl</span> polling. This is the concrete case for TanStack Query: background poll + cache, not a page reload.</div></div>
+          <div class="note"><div class="num">7</div><div><b>Agent badge</b> — most-recent <span class="tag">agentContexts</span> row by <span class="tag">lastSyncedAt</span>, if any. No badge if a project has none.</div></div>
+          <div class="note"><div class="num">8</div><div><b>Footer</b> — relative <span class="tag">updatedAt</span> + a count summary standing in for the sections a full detail page would show.</div></div>
+        </div>
+      </div>
+
+      <div class="section-label">Grid at scale</div>
+      <div class="grid">
+
+        <div class="card">
+          <div class="accent-bar" style="background:#8ea6e8"></div>
+          <div class="card-head">
+            <div class="icon-chip" style="background:#e7ecfb; color:#3450c9;">❄️</div>
+            <div class="card-title">
+              <div class="name">homelab-flake</div>
+              <div class="slug">homelab-flake</div>
+            </div>
+          </div>
+          <div class="desc">Declarative NixOS flake for the whole fleet — hosts, modules, secrets via agenix.</div>
+          <div class="tags"><span class="chip">nixos</span><span class="chip">flakes</span><span class="chip">infra</span></div>
+          <div class="launch-row">
+            <div class="launch-btn">🌿</div>
+            <div class="launch-btn">🖥️<span class="status-dot dot-ok"></span></div>
+            <div class="launch-spacer"></div>
+            <div class="agent-badge">✳ Claude Code · 1d</div>
+          </div>
+          <div class="card-foot"><span>Updated 1d ago</span><span>1 location · 4 hosts · 2 docs</span></div>
+        </div>
+
+        <div class="card">
+          <div class="accent-bar" style="background:#e8a06a"></div>
+          <div class="card-head">
+            <div class="icon-chip" style="background:#fbeee1; color:#a9601f;">🌩️</div>
+            <div class="card-title">
+              <div class="name">DockFlare</div>
+              <div class="slug">dockflare</div>
+            </div>
+          </div>
+          <div class="desc">Automated Cloudflare Access + DNS for Docker containers on the homelab.</div>
+          <div class="tags"><span class="chip">docker</span><span class="chip">cloudflare</span></div>
+          <div class="launch-row">
+            <div class="launch-btn">📁</div>
+            <div class="launch-btn">🌐<span class="status-dot dot-crit"></span></div>
+            <div class="launch-btn">⌨️</div>
+            <div class="launch-spacer"></div>
+          </div>
+          <div class="card-foot"><span>Updated 4d ago</span><span>2 locations · 1 service · 3 docs</span></div>
+        </div>
+
+        <div class="card">
+          <div class="accent-bar" style="background:#b592d6"></div>
+          <div class="card-head">
+            <div class="icon-chip" style="background:#f2e7f8; color:#7e3fa3;">🐉</div>
+            <div class="card-title">
+              <div class="name">Komodo Core</div>
+              <div class="slug">komodo-core</div>
+            </div>
+          </div>
+          <div class="desc">Docker &amp; server management control plane for the fleet.</div>
+          <div class="tags"><span class="chip">docker</span><span class="chip">ops</span></div>
+          <div class="launch-row">
+            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+            <div class="launch-btn">⌨️</div>
+            <div class="launch-spacer"></div>
+            <div class="agent-badge">✳ Codex CLI · 6h</div>
+          </div>
+          <div class="card-foot"><span>Updated 6h ago</span><span>1 location · 1 service · 1 doc</span></div>
+        </div>
+
+        <div class="card">
+          <div class="accent-bar" style="background:#7fbf8f"></div>
+          <div class="card-head">
+            <div class="icon-chip" style="background:#e5f4e8; color:#2f7a45;">🔀</div>
+            <div class="card-title">
+              <div class="name">Traefik configs</div>
+              <div class="slug">traefik-configs</div>
+            </div>
+          </div>
+          <div class="desc">Dynamic routing config &amp; middleware definitions for all reverse-proxied services.</div>
+          <div class="tags"><span class="chip">networking</span><span class="chip">docker</span></div>
+          <div class="launch-row">
+            <div class="launch-btn">📁</div>
+            <div class="launch-btn">🌐<span class="status-dot dot-warn"></span></div>
+            <div class="launch-spacer"></div>
+          </div>
+          <div class="card-foot"><span>Updated 2d ago</span><span>1 location · 2 services · 4 docs</span></div>
+        </div>
+
+        <div class="card">
+          <div class="accent-bar" style="background:#e0b559"></div>
+          <div class="card-head">
+            <div class="icon-chip" style="background:#faf1de; color:#8a6414;">📈</div>
+            <div class="card-title">
+              <div class="name">Beszel + Uptime Kuma</div>
+              <div class="slug">monitoring-stack</div>
+            </div>
+          </div>
+          <div class="desc">Fleet monitoring &amp; status pages. Two services, shared docs set.</div>
+          <div class="tags"><span class="chip">monitoring</span></div>
+          <div class="launch-row">
+            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+            <div class="launch-spacer"></div>
+          </div>
+          <div class="card-foot"><span>Updated 5d ago</span><span>2 services · 1 doc</span></div>
+        </div>
+
+        <div class="card">
+          <div class="accent-bar" style="background:#8fb8c9"></div>
+          <div class="card-head">
+            <div class="icon-chip" style="background:#e5f0f3; color:#22687d;">🔐</div>
+            <div class="card-title">
+              <div class="name">Technitium DNS</div>
+              <div class="slug">technitium-dns</div>
+            </div>
+          </div>
+          <div class="desc">Internal DNS + ad-block resolver, primary + secondary pair.</div>
+          <div class="tags"><span class="chip">networking</span></div>
+          <div class="launch-row">
+            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+            <div class="launch-btn">⌨️</div>
+            <div class="launch-spacer"></div>
+          </div>
+          <div class="card-foot"><span>Updated 9d ago</span><span>1 location · 1 service</span></div>
+        </div>
+
+        <div class="card archived">
+          <div class="accent-bar"></div>
+          <div class="card-head">
+            <div class="icon-chip" style="background:#eceae4; color:#6b6b66;">📦</div>
+            <div class="card-title">
+              <div class="name">old-grafana-stack</div>
+              <div class="slug">old-grafana-stack</div>
+            </div>
+          </div>
+          <div class="desc">Replaced by Beszel + Uptime Kuma. Kept for reference.</div>
+          <div class="tags"><span class="chip">archived</span></div>
+          <div class="launch-row">
+            <div class="launch-btn">📁</div>
+            <div class="launch-spacer"></div>
+          </div>
+          <div class="card-foot"><span>Updated 90d ago</span><span>1 location</span></div>
+        </div>
+
+        <div class="card add-card">
+          <div class="plus">+</div>
+          <div class="label">Add project</div>
+        </div>
+
+      </div>
+
+      <div class="legend-strip">
+        <span class="item"><span class="sw" style="background:var(--ok)"></span> service healthy</span>
+        <span class="item"><span class="sw" style="background:var(--warn)"></span> degraded / slow health check</span>
+        <span class="item"><span class="sw" style="background:var(--crit)"></span> unreachable</span>
+        <span class="item"><span class="sw" style="background:var(--unknown-dot)"></span> no health check configured</span>
+        <span class="item" style="margin-left:auto;">Low-fidelity on purpose — greyscale chrome, real copy, no final type/color system yet.</span>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
