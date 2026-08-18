@@ -271,19 +271,67 @@
     border: 1px solid var(--line);
     border-radius: 10px;
     box-shadow: var(--shadow);
-    padding: 14px 14px 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.archived { opacity: 0.55; }
+  .card.archived .card-media { filter: grayscale(1); }
+
+  /* header image (projects.headerImage) — fixed-ratio crop; falls back to
+     a gradient of projects.color + a centered glyph when unset, so the
+     field can stay optional without leaving a blank grey box. */
+  .card-media {
+    position: relative;
+    height: 108px;
+    flex: none;
+    background-size: cover;
+    background-position: center;
+  }
+  .card-media .cover-tag {
+    position: absolute;
+    right: 8px; bottom: 8px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: rgba(255,255,255,0.85);
+    background: rgba(0,0,0,0.28);
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+  .card-media.no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-media.no-image .glyph {
+    font-size: 30px;
+    opacity: 0.55;
+    filter: grayscale(1) brightness(3);
+  }
+  .card-media.no-image .cover-tag {
+    color: var(--ink-soft);
+    background: rgba(255,255,255,0.5);
+  }
+
+  .icon-chip {
+    position: absolute;
+    left: 14px;
+    bottom: -15px;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex: none;
+    box-shadow: 0 0 0 3px var(--panel);
+    z-index: 2;
+  }
+
+  .card-body {
+    padding: 21px 14px 12px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-  .card.archived { opacity: 0.55; }
-  .card.archived .accent-bar { background: var(--muted) !important; }
-
-  .accent-bar {
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    border-radius: 10px 0 0 10px;
   }
 
   .card-head {
@@ -291,13 +339,6 @@
     align-items: flex-start;
     gap: 10px;
     padding-left: 6px;
-  }
-  .icon-chip {
-    width: 34px; height: 34px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    flex: none;
   }
   .card-title { min-width: 0; }
   .card-title .name {
@@ -404,6 +445,7 @@
     min-height: 168px;
     gap: 6px;
     cursor: pointer;
+    padding: 14px;
   }
   .add-card .plus {
     width: 30px; height: 30px;
@@ -543,46 +585,51 @@
 
     <main class="main">
       <h1>Projects</h1>
-      <p class="sub">8 active &middot; 1 archived &middot; wireframe rev. 1 — layout &amp; feature sort, not final visual design</p>
+      <p class="sub">8 active &middot; 1 archived &middot; wireframe rev. 2 — added per-project header images &middot; layout &amp; feature sort, not final visual design</p>
 
       <div class="section-label">Card anatomy (annotated)</div>
       <div class="spec-wrap">
         <div class="spec-card-holder">
           <div class="card" style="min-height: 190px;">
-            <div class="accent-bar" style="background:#5eead4"></div>
-            <div class="card-head">
+            <div class="card-media" style="background-image: linear-gradient(135deg, rgba(94,234,212,0.55), rgba(15,118,110,0.75)), repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 10px, rgba(255,255,255,0) 10px 20px), #0f766e;">
+              <span class="cover-tag">cover.jpg</span>
               <div class="icon-chip" style="background:#dff9f4; color:#0f766e;">🧭</div>
-              <div class="card-title">
-                <div class="name">contex01</div>
-                <div class="slug">contex01</div>
+            </div>
+            <div class="card-body">
+              <div class="card-head">
+                <div class="card-title">
+                  <div class="name">contex01</div>
+                  <div class="slug">contex01</div>
+                </div>
               </div>
-            </div>
-            <div class="desc">Self-hostable launchpad for project contexts — locations, services, docs, and sessions in one place.</div>
-            <div class="tags">
-              <span class="chip">nixos</span><span class="chip">nextjs</span>
-            </div>
-            <div class="launch-row">
-              <div class="launch-btn">📁</div>
-              <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
-              <div class="launch-btn">⌨️</div>
-              <div class="launch-spacer"></div>
-              <div class="agent-badge">✳ Claude Code · 2h</div>
-            </div>
-            <div class="card-foot">
-              <span>Updated 2h ago</span>
-              <span>3 locations · 2 services · 6 docs</span>
+              <div class="desc">Self-hostable launchpad for project contexts — locations, services, docs, and sessions in one place.</div>
+              <div class="tags">
+                <span class="chip">nixos</span><span class="chip">nextjs</span>
+              </div>
+              <div class="launch-row">
+                <div class="launch-btn">📁</div>
+                <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+                <div class="launch-btn">⌨️</div>
+                <div class="launch-spacer"></div>
+                <div class="agent-badge">✳ Claude Code · 2h</div>
+              </div>
+              <div class="card-foot">
+                <span>Updated 2h ago</span>
+                <span>3 locations · 2 services · 6 docs</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="notes">
-          <div class="note"><div class="num">1</div><div><b>Accent bar</b> — <span class="tag">projects.color</span>, left edge only, keeps the grid from turning into a rainbow of full-card tint.</div></div>
-          <div class="note"><div class="num">2</div><div><b>Icon chip + name + slug</b> — <span class="tag">projects.icon</span>. Slug shown small &amp; mono underneath so it reads as an identifier, not a subtitle.</div></div>
-          <div class="note"><div class="num">3</div><div><b>Description</b> — clamped to 2 lines. Open question: is truncation enough, or does a card need a "details" affordance beyond opening the project page?</div></div>
-          <div class="note"><div class="num">4</div><div><b>Tag chips</b> — from <span class="tag">projectTags</span>. Click filters the rail by that tag.</div></div>
-          <div class="note"><div class="num">5</div><div><b>Quick-launch row</b> — one icon per <span class="tag">location</span> / <span class="tag">service</span> / <span class="tag">session</span> kind, capped at N before collapsing into "+2". Clicking fires <span class="tag">launchUri</span> / opens <span class="tag">url</span> / copies <span class="tag">command</span>.</div></div>
-          <div class="note"><div class="num">6</div><div><b>Status dot</b> — corner badge on service icons only, from <span class="tag">healthCheckUrl</span> polling. This is the concrete case for TanStack Query: background poll + cache, not a page reload.</div></div>
-          <div class="note"><div class="num">7</div><div><b>Agent badge</b> — most-recent <span class="tag">agentContexts</span> row by <span class="tag">lastSyncedAt</span>, if any. No badge if a project has none.</div></div>
-          <div class="note"><div class="num">8</div><div><b>Footer</b> — relative <span class="tag">updatedAt</span> + a count summary standing in for the sections a full detail page would show.</div></div>
+          <div class="note"><div class="num">1</div><div><b>Header image</b> — new field, <span class="tag">projects.headerImage</span>. Fixed-ratio crop (proposing ~12:5, so a 1200×500 upload works without cropping surprises). Optional: unset falls back to a gradient of <span class="tag">projects.color</span> so the grid never has a blank box while photos get added.</div></div>
+          <div class="note"><div class="num">2</div><div><b>Icon chip</b> — <span class="tag">projects.icon</span>, anchored over the image/body seam so it still reads "what is this" even when the photo itself is abstract (a screenshot, a rack photo, art).</div></div>
+          <div class="note"><div class="num">3</div><div><b>Name + slug</b> — slug shown small &amp; mono underneath so it reads as an identifier, not a subtitle.</div></div>
+          <div class="note"><div class="num">4</div><div><b>Description</b> — clamped to 2 lines. Open question: is truncation enough, or does a card need a "details" affordance beyond opening the project page?</div></div>
+          <div class="note"><div class="num">5</div><div><b>Tag chips</b> — from <span class="tag">projectTags</span>. Click filters the rail by that tag.</div></div>
+          <div class="note"><div class="num">6</div><div><b>Quick-launch row</b> — one icon per <span class="tag">location</span> / <span class="tag">service</span> / <span class="tag">session</span> kind, capped at N before collapsing into "+2". Clicking fires <span class="tag">launchUri</span> / opens <span class="tag">url</span> / copies <span class="tag">command</span>.</div></div>
+          <div class="note"><div class="num">7</div><div><b>Status dot</b> — corner badge on service icons only, from <span class="tag">healthCheckUrl</span> polling. This is the concrete case for TanStack Query: background poll + cache, not a page reload.</div></div>
+          <div class="note"><div class="num">8</div><div><b>Agent badge</b> — most-recent <span class="tag">agentContexts</span> row by <span class="tag">lastSyncedAt</span>, if any. No badge if a project has none.</div></div>
+          <div class="note"><div class="num">9</div><div><b>Footer</b> — relative <span class="tag">updatedAt</span> + a count summary standing in for the sections a full detail page would show.</div></div>
         </div>
       </div>
 
@@ -590,138 +637,168 @@
       <div class="grid">
 
         <div class="card">
-          <div class="accent-bar" style="background:#8ea6e8"></div>
-          <div class="card-head">
+          <div class="card-media" style="background-image: linear-gradient(135deg, rgba(142,166,232,0.5), rgba(52,80,201,0.8)), repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 10px, rgba(255,255,255,0) 10px 20px), #3450c9;">
+            <span class="cover-tag">rack-photo.jpg</span>
             <div class="icon-chip" style="background:#e7ecfb; color:#3450c9;">❄️</div>
-            <div class="card-title">
-              <div class="name">homelab-flake</div>
-              <div class="slug">homelab-flake</div>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <div class="card-title">
+                <div class="name">homelab-flake</div>
+                <div class="slug">homelab-flake</div>
+              </div>
             </div>
+            <div class="desc">Declarative NixOS flake for the whole fleet — hosts, modules, secrets via agenix.</div>
+            <div class="tags"><span class="chip">nixos</span><span class="chip">flakes</span><span class="chip">infra</span></div>
+            <div class="launch-row">
+              <div class="launch-btn">🌿</div>
+              <div class="launch-btn">🖥️<span class="status-dot dot-ok"></span></div>
+              <div class="launch-spacer"></div>
+              <div class="agent-badge">✳ Claude Code · 1d</div>
+            </div>
+            <div class="card-foot"><span>Updated 1d ago</span><span>1 location · 4 hosts · 2 docs</span></div>
           </div>
-          <div class="desc">Declarative NixOS flake for the whole fleet — hosts, modules, secrets via agenix.</div>
-          <div class="tags"><span class="chip">nixos</span><span class="chip">flakes</span><span class="chip">infra</span></div>
-          <div class="launch-row">
-            <div class="launch-btn">🌿</div>
-            <div class="launch-btn">🖥️<span class="status-dot dot-ok"></span></div>
-            <div class="launch-spacer"></div>
-            <div class="agent-badge">✳ Claude Code · 1d</div>
-          </div>
-          <div class="card-foot"><span>Updated 1d ago</span><span>1 location · 4 hosts · 2 docs</span></div>
         </div>
 
         <div class="card">
-          <div class="accent-bar" style="background:#e8a06a"></div>
-          <div class="card-head">
+          <div class="card-media" style="background-image: linear-gradient(135deg, rgba(232,160,106,0.5), rgba(169,96,31,0.8)), repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 10px, rgba(255,255,255,0) 10px 20px), #a9601f;">
+            <span class="cover-tag">cover.png</span>
             <div class="icon-chip" style="background:#fbeee1; color:#a9601f;">🌩️</div>
-            <div class="card-title">
-              <div class="name">DockFlare</div>
-              <div class="slug">dockflare</div>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <div class="card-title">
+                <div class="name">DockFlare</div>
+                <div class="slug">dockflare</div>
+              </div>
             </div>
+            <div class="desc">Automated Cloudflare Access + DNS for Docker containers on the homelab.</div>
+            <div class="tags"><span class="chip">docker</span><span class="chip">cloudflare</span></div>
+            <div class="launch-row">
+              <div class="launch-btn">📁</div>
+              <div class="launch-btn">🌐<span class="status-dot dot-crit"></span></div>
+              <div class="launch-btn">⌨️</div>
+              <div class="launch-spacer"></div>
+            </div>
+            <div class="card-foot"><span>Updated 4d ago</span><span>2 locations · 1 service · 3 docs</span></div>
           </div>
-          <div class="desc">Automated Cloudflare Access + DNS for Docker containers on the homelab.</div>
-          <div class="tags"><span class="chip">docker</span><span class="chip">cloudflare</span></div>
-          <div class="launch-row">
-            <div class="launch-btn">📁</div>
-            <div class="launch-btn">🌐<span class="status-dot dot-crit"></span></div>
-            <div class="launch-btn">⌨️</div>
-            <div class="launch-spacer"></div>
-          </div>
-          <div class="card-foot"><span>Updated 4d ago</span><span>2 locations · 1 service · 3 docs</span></div>
         </div>
 
         <div class="card">
-          <div class="accent-bar" style="background:#b592d6"></div>
-          <div class="card-head">
+          <div class="card-media no-image" style="background: linear-gradient(135deg, #f2e7f8, #b592d6);">
+            <span class="glyph">🐉</span>
+            <span class="cover-tag">no cover — falls back to color</span>
             <div class="icon-chip" style="background:#f2e7f8; color:#7e3fa3;">🐉</div>
-            <div class="card-title">
-              <div class="name">Komodo Core</div>
-              <div class="slug">komodo-core</div>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <div class="card-title">
+                <div class="name">Komodo Core</div>
+                <div class="slug">komodo-core</div>
+              </div>
             </div>
+            <div class="desc">Docker &amp; server management control plane for the fleet.</div>
+            <div class="tags"><span class="chip">docker</span><span class="chip">ops</span></div>
+            <div class="launch-row">
+              <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+              <div class="launch-btn">⌨️</div>
+              <div class="launch-spacer"></div>
+              <div class="agent-badge">✳ Codex CLI · 6h</div>
+            </div>
+            <div class="card-foot"><span>Updated 6h ago</span><span>1 location · 1 service · 1 doc</span></div>
           </div>
-          <div class="desc">Docker &amp; server management control plane for the fleet.</div>
-          <div class="tags"><span class="chip">docker</span><span class="chip">ops</span></div>
-          <div class="launch-row">
-            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
-            <div class="launch-btn">⌨️</div>
-            <div class="launch-spacer"></div>
-            <div class="agent-badge">✳ Codex CLI · 6h</div>
-          </div>
-          <div class="card-foot"><span>Updated 6h ago</span><span>1 location · 1 service · 1 doc</span></div>
         </div>
 
         <div class="card">
-          <div class="accent-bar" style="background:#7fbf8f"></div>
-          <div class="card-head">
+          <div class="card-media" style="background-image: linear-gradient(135deg, rgba(127,191,143,0.5), rgba(47,122,69,0.8)), repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 10px, rgba(255,255,255,0) 10px 20px), #2f7a45;">
+            <span class="cover-tag">topology.png</span>
             <div class="icon-chip" style="background:#e5f4e8; color:#2f7a45;">🔀</div>
-            <div class="card-title">
-              <div class="name">Traefik configs</div>
-              <div class="slug">traefik-configs</div>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <div class="card-title">
+                <div class="name">Traefik configs</div>
+                <div class="slug">traefik-configs</div>
+              </div>
             </div>
+            <div class="desc">Dynamic routing config &amp; middleware definitions for all reverse-proxied services.</div>
+            <div class="tags"><span class="chip">networking</span><span class="chip">docker</span></div>
+            <div class="launch-row">
+              <div class="launch-btn">📁</div>
+              <div class="launch-btn">🌐<span class="status-dot dot-warn"></span></div>
+              <div class="launch-spacer"></div>
+            </div>
+            <div class="card-foot"><span>Updated 2d ago</span><span>1 location · 2 services · 4 docs</span></div>
           </div>
-          <div class="desc">Dynamic routing config &amp; middleware definitions for all reverse-proxied services.</div>
-          <div class="tags"><span class="chip">networking</span><span class="chip">docker</span></div>
-          <div class="launch-row">
-            <div class="launch-btn">📁</div>
-            <div class="launch-btn">🌐<span class="status-dot dot-warn"></span></div>
-            <div class="launch-spacer"></div>
-          </div>
-          <div class="card-foot"><span>Updated 2d ago</span><span>1 location · 2 services · 4 docs</span></div>
         </div>
 
         <div class="card">
-          <div class="accent-bar" style="background:#e0b559"></div>
-          <div class="card-head">
+          <div class="card-media" style="background-image: linear-gradient(135deg, rgba(224,181,89,0.5), rgba(138,100,20,0.8)), repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 10px, rgba(255,255,255,0) 10px 20px), #8a6414;">
+            <span class="cover-tag">dashboard.png</span>
             <div class="icon-chip" style="background:#faf1de; color:#8a6414;">📈</div>
-            <div class="card-title">
-              <div class="name">Beszel + Uptime Kuma</div>
-              <div class="slug">monitoring-stack</div>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <div class="card-title">
+                <div class="name">Beszel + Uptime Kuma</div>
+                <div class="slug">monitoring-stack</div>
+              </div>
             </div>
+            <div class="desc">Fleet monitoring &amp; status pages. Two services, shared docs set.</div>
+            <div class="tags"><span class="chip">monitoring</span></div>
+            <div class="launch-row">
+              <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+              <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+              <div class="launch-spacer"></div>
+            </div>
+            <div class="card-foot"><span>Updated 5d ago</span><span>2 services · 1 doc</span></div>
           </div>
-          <div class="desc">Fleet monitoring &amp; status pages. Two services, shared docs set.</div>
-          <div class="tags"><span class="chip">monitoring</span></div>
-          <div class="launch-row">
-            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
-            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
-            <div class="launch-spacer"></div>
-          </div>
-          <div class="card-foot"><span>Updated 5d ago</span><span>2 services · 1 doc</span></div>
         </div>
 
         <div class="card">
-          <div class="accent-bar" style="background:#8fb8c9"></div>
-          <div class="card-head">
+          <div class="card-media no-image" style="background: linear-gradient(135deg, #e5f0f3, #8fb8c9);">
+            <span class="glyph">🔐</span>
+            <span class="cover-tag">no cover — falls back to color</span>
             <div class="icon-chip" style="background:#e5f0f3; color:#22687d;">🔐</div>
-            <div class="card-title">
-              <div class="name">Technitium DNS</div>
-              <div class="slug">technitium-dns</div>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <div class="card-title">
+                <div class="name">Technitium DNS</div>
+                <div class="slug">technitium-dns</div>
+              </div>
             </div>
+            <div class="desc">Internal DNS + ad-block resolver, primary + secondary pair.</div>
+            <div class="tags"><span class="chip">networking</span></div>
+            <div class="launch-row">
+              <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
+              <div class="launch-btn">⌨️</div>
+              <div class="launch-spacer"></div>
+            </div>
+            <div class="card-foot"><span>Updated 9d ago</span><span>1 location · 1 service</span></div>
           </div>
-          <div class="desc">Internal DNS + ad-block resolver, primary + secondary pair.</div>
-          <div class="tags"><span class="chip">networking</span></div>
-          <div class="launch-row">
-            <div class="launch-btn">🌐<span class="status-dot dot-ok"></span></div>
-            <div class="launch-btn">⌨️</div>
-            <div class="launch-spacer"></div>
-          </div>
-          <div class="card-foot"><span>Updated 9d ago</span><span>1 location · 1 service</span></div>
         </div>
 
         <div class="card archived">
-          <div class="accent-bar"></div>
-          <div class="card-head">
+          <div class="card-media" style="background-image: linear-gradient(135deg, rgba(236,234,228,0.6), rgba(107,107,102,0.7)), repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 10px, rgba(255,255,255,0) 10px 20px), #6b6b66;">
+            <span class="cover-tag">cover.jpg</span>
             <div class="icon-chip" style="background:#eceae4; color:#6b6b66;">📦</div>
-            <div class="card-title">
-              <div class="name">old-grafana-stack</div>
-              <div class="slug">old-grafana-stack</div>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <div class="card-title">
+                <div class="name">old-grafana-stack</div>
+                <div class="slug">old-grafana-stack</div>
+              </div>
             </div>
+            <div class="desc">Replaced by Beszel + Uptime Kuma. Kept for reference.</div>
+            <div class="tags"><span class="chip">archived</span></div>
+            <div class="launch-row">
+              <div class="launch-btn">📁</div>
+              <div class="launch-spacer"></div>
+            </div>
+            <div class="card-foot"><span>Updated 90d ago</span><span>1 location</span></div>
           </div>
-          <div class="desc">Replaced by Beszel + Uptime Kuma. Kept for reference.</div>
-          <div class="tags"><span class="chip">archived</span></div>
-          <div class="launch-row">
-            <div class="launch-btn">📁</div>
-            <div class="launch-spacer"></div>
-          </div>
-          <div class="card-foot"><span>Updated 90d ago</span><span>1 location</span></div>
         </div>
 
         <div class="card add-card">
