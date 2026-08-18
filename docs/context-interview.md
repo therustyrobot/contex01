@@ -219,5 +219,131 @@ equal —
     one as primary (gets the rich GitHub issues/info block) vs. secondary
     (just a reference link). Not all `git_remote` locations are equal.
 
-## Open questions / not yet covered
-- station-cassandra, harlw.com — not yet started.
+17. **Icebox state for new projects.** harlw has too many ideas and starts
+    too many projects he doesn't finish. Wants a project lifecycle state —
+    "iceboxed" — for a brand-new idea:
+    - Record the idea/initial thoughts up front (a brain-dump capture, see
+      #18 below)
+    - The project is locked from being worked on for a set cool-down period
+    - Visually distinct — "frozen," with a countdown clock (he explicitly
+      said it's fine to get a little cheesy/playful with this)
+    - Separately, he gets a bounded window (~30 min) he can spend on an
+      iceboxed project purely to brain-dump/brainstorm and think it through
+      more — this is deliberately *not* "working on" the project, it's
+      reflection time, distinct from the cooldown lock
+    - When the cooldown period ends, he decides: pursue for real (promote
+      out of icebox), archive, or fold it into something smaller ("modify
+      into something lesser")
+    - Point of the whole mechanic: temper the initial excitement spike so
+      he doesn't headlong into new projects at the expense of finishing
+      existing ones.
+
+18. **Voice brain-dump → agent-assisted project fill-out.** Proposed as one
+    of the first things you'd do on a new project: record a voice
+    transcription brain-dump of everything in your head about it, then have
+    an integrated agent process that transcript and auto-populate the
+    project: description, identified tasks/to-dos, identified
+    blockers/requirements, identified people who might need to be involved,
+    and anything else it can pick up. This is essentially productizing the
+    interview process this very session has been doing manually — worth
+    building as a first-class "new project" flow, not just a one-off.
+
+## station-cassandra (interactive signals-intelligence terminal / narrative escape experience)
+
+**Shape:** a physical installation — a self-contained unit (not a room) with
+a small computer, vintage/retro phone-and-headset hardware, internal
+radios, a custom-built keyboard, an Arduino driving relays that physically
+unlatch drawers/locks as the story progresses, and a Pi (or similar)
+running the software side, which talks to small local agents with very
+specific instructions to lock/unlock story information.
+
+- **Phased build, deliberately sequenced:** starting with a digital
+  prototype so people can playtest the *story/logic* before any physical
+  build happens — goal is to fully scope what hardware is actually needed
+  and avoid overbuilding, then move to physical implementation once the
+  digital version is validated.
+- **Content to generate:** storyboards, story branching/logic — a content
+  type specific to this kind of project (distinct from reloop's marketing
+  copy, but same general shape: written material that needs producing).
+- **Physical hardware BOM:** Arduino(s), Raspberry Pi, retro/vintage
+  display hardware, custom keyboard, phone/headset hardware, radios — same
+  have-vs-need-to-buy inventory need as family-calendar-display; this
+  confirms it's a general pattern for physical-build projects, not a
+  one-off.
+- **Deliberately flexible/extensible format:** wants to support more than
+  one story experience — start simple, add complexity as bugs get worked
+  out. He's not sure yet whether this stays one long, sprawling,
+  never-quite-done project (homelylab-shaped) or ends up spinning off
+  sibling projects for each additional story/installation (a
+  project-to-project relationship, similar in spirit to the task-graduates-
+  to-project pattern from homelylab, but for whole projects).
+
+19. **Projects can have build phases/milestones** — e.g. digital prototype
+    → physical build. Each phase can have its own scope and blockers. Not
+    every project needs this, but complex physical builds do.
+
+20. **Playtesting/validation is a distinct task type** — goal is explicitly
+    to *avoid* building things that turn out unnecessary; testing an
+    earlier-stage version is how scope gets finalized before committing to
+    a harder-to-change physical stage.
+
+21. **Projects can spawn sibling projects**, not just tasks graduating into
+    projects. Worth tracking a loose "related project" link even when
+    there's no cooldown/promotion event — sometimes a project just inspires
+    another one.
+
+## harlw.com (personal site)
+
+**Shape:** closer to reloop-ecycling than homelylab — a boundable project
+that can actually reach "complete," not a rolling backlog.
+
+- Remaining work: finish editing existing content drafts, generate and add
+  graphics — same content-doc pattern seen on reloop-ecycling.
+- The build/deployment/editing setup itself is unfinished and awkward — he
+  did "a funky thing" architecturally that made it hard to manage content,
+  and may need to rework that. This is a **technical-debt/rework blocker**:
+  not something stopping progress outright, but friction slowing every
+  future content update until it's addressed.
+- Wants to blog regularly once the site itself is done — but sees the blog
+  as a strong candidate for a **sibling/related project** rather than
+  living inside harlw.com's own context: the site can be "complete" on its
+  own, while the blog is an ongoing, separate-context thing that happens to
+  live on the same domain. Confirms the "related project" link from
+  station-cassandra is a real, recurring need, not a one-off.
+
+22. **Technical-debt/rework is its own blocker flavor** — distinct from the
+    four found earlier (external-party, own-research, purchase, physical
+    installation). This one blocks *ergonomics*, not the ability to act at
+    all: harlw.com's awkward CMS setup doesn't stop him from editing
+    content, it just makes every edit more painful until it's reworked.
+
+23. **A "complete" project can still have an ongoing sibling.** harlw.com
+    (the site) is boundable and can finish; a blog on the same domain is
+    open-ended and shouldn't drag harlw.com's status down or force them to
+    share all context. Reinforces #21 (related-project links) with a
+    concrete case: same domain/infra, deliberately separate project.
+
+## All six repos covered — summary of new concepts surfaced
+
+- Blocker taxonomy (5 flavors): external-party, own-research/decision,
+  purchase (watch/search), physical installation/labor, technical-debt/
+  rework
+- Delegation checkbox + prefilled delegate-target (AI agent / person)
+- "Needs input from a specific person" vs. "needs my own thought"
+- Scope tiers: core / enhancement / someday-backlog
+- Physical location as a location kind
+- Have-vs-need-to-buy inventory checklist (general to physical builds)
+- Purchase items as watch/search tasks with criteria + sources + status
+- Rolling-backlog projects: no forced deadline, freshness metadata instead
+- Tasks can graduate into their own project (with provenance link)
+- Projects can spawn/link to sibling projects (looser than graduation)
+- Build phases/milestones within a project
+- Playtesting/validation as a task type
+- GitHub Issues surfaced per project (v1 decision); multi-repo projects
+  need a primary-repo/secondary-repo distinction
+- Legacy tracking artifacts (e.g. a spreadsheet) linkable as "old way I
+  tracked this"
+- Project tool chain can be conceptual/provisional, separate from the
+  specific services wired to each pipeline stage
+- Icebox lifecycle state with cooldown timer + bounded brainstorm window
+- Voice brain-dump → agent-assisted new-project fill-out
